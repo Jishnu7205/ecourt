@@ -9,7 +9,7 @@
 
 body{
     background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    background: linear-gradient(to bottom, #d1dcdc, #956d90);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,7 +40,7 @@ body{
 }
 
 .container a{
-    color: #333;
+    color: #000000;
     font-size: 13px;
     text-decoration: none;
     margin: 15px 0 10px;
@@ -52,7 +52,7 @@ body{
     font-size: 12px;
     padding: 10px 45px;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 9px;
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
