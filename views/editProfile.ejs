@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-control {
+      border-radius: 25px;
+    }
+
+    .custom-file-upload {
+      display: inline-block;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: background-color 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+      background-color: #0056b3;
+    }
+
+    img {
+      max-width: 150px;
+      margin-top: 10px;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.1);
+    }
+
+    .btn-save {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-save:hover {
+      background-color: #0056b3;
+    }
+
+    /* Hide the "Choose file" input */
+    #imageInput {
+      display: none;
+    }
+
+    #upload {
+    opacity: 0;
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.image-area {
+    border: 2px dashed rgb(0, 0, 0, 0.7);
+    padding: 1rem;
+    position: relative;
+}
+
+.image-area::before {
+    content: 'Uploaded image result';
+    color: #444;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Profile</h2>
+    <form id="profileForm" action="/updateProfile" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name"  value="">
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" value="<%=userEmail%>">
+      </div>
+      <div class="form-group">
+        <label for="contact">Contact No:</label>
+        <input type="text" class="form-control" id="contact" name="contact" value="">
+      </div>
+      <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" class="form-control" id="city" name="city" value="">
+      </div>
+      <div class="form-group">
+        <label for="practiceAreas">Practice Areas:</label>
+        <input type="text" class="form-control" id="practiceAreas" name="practiceAreas" value="">
+      </div>
+      <div class="form-group">
+        <label for="experience">Experience:</label>
+        <input type="text" class="form-control" id="experience" name="experience" value="">
+      </div>
+     
+      <!-- Upload image input-->
+      <div class="input-group mb-3 px-2 py-2 bg-white shadow-sm uploadImg" style='border-radius: .25rem; border:1px solid rgb(119, 136, 153, 0.5);'>
+        <input id="upload" type="file" name="UImg" onchange="readURL(this);" class="form-control  border-0">
+        <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose file</label>
+        <div class="input-group-append">
+          <label for="upload" class="btn btn-light m-0 " style='border-radius: .25rem; border:1px solid rgb(112, 128, 148, 0.5);'>
+            <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+            <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
+          </label>
+        </div>
+      </div>
+
+      <!-- Uploaded image area-->
+      <p class="font-italic text-center">The image uploaded will be rendered inside the box below.</p>
+      <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
+
+      <br>
+      <button type="submit" class="btn btn-save btn-block">Save Changes</button>
+    </form>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="/uploadImage.js"></script> 
+  <!-- <script src="\regStaff.js"></script> -->
+</body>
+</html>

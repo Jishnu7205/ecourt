@@ -53,16 +53,30 @@
 			<p style="margin: 0;"><strong>Contact:</strong> &nbsp;&nbsp;<%= lawyer.contact %></p>
 			<p style="margin: 0;"><strong>Court:</strong> &nbsp;&nbsp;<%= lawyer.court %></p>
 			<p style="margin: 0;"><strong>City:</strong> &nbsp;&nbsp;<%= lawyer.city %></p>
-			<p style="margin: 0;"><strong>Date:</strong> &nbsp;&nbsp;<%= lawyer.practiceAreas %></p>
-			<p style="margin: 0;"><strong>PracticeAreas:</strong> &nbsp;&nbsp;<%= lawyer.experience %></p>
-			<p style="margin: 0;"><strong>Experience:</strong> &nbsp;&nbsp;<%= lawyer.address %></p>
+			<p style="margin: 0;"><strong>Practice Areas:</strong> &nbsp;&nbsp;<%= lawyer.practiceAreas %></p>
+			<p style="margin: 0;"><strong>Experience:</strong> &nbsp;&nbsp;<%= lawyer.experience %></p>
+			<p style="margin: 0;"><strong>Address:</strong> &nbsp;&nbsp;<%= lawyer.address %></p>
 			<p style="margin: 0;"><strong>Gender:</strong> &nbsp;&nbsp;<%= lawyer.gender %></p>
+			<p style="margin: 0;"><strong>Social Welfare:</strong> &nbsp;&nbsp;<%= lawyer.socialWelfare %></p>
+			<button class="edit-profile-btn" onclick="window.location.href = '/editProfile'">Edit Profile</button>
+
 		</div>
 		
 		
         </div> 
 		  </nav> 
 		</div> 
+		<script>
+	
+			// Check if there's a success message in the URL parameters
+			const params = new URLSearchParams(window.location.search);
+			const successMessage = params.get('success');
+	
+			// Display the success message if present
+			if (successMessage) {
+				alert(successMessage); // You can also display this message in a modal or a toast
+			}
+		</script>
 		<div class="lawyers">
 			 <div class="intro">
 				<div class="heading">
@@ -138,16 +152,13 @@
 		</div> 
 	</div>
 	<script src="./public/home.js"></script> 
+	
 <script> 
 
           window.history.pushState(null, null, window.location.href);
           window.onpopstate = function () {
               window.history.go(1);
           };
-                    
-          
-          
-          
           </script>
 </body> 
 </html>

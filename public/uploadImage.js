@@ -14,10 +14,12 @@ function readURL(input) {
 }
 
 $(function () {
-    $('#upload').on('change', function () {
-        readURL(input);
+    $('#upload').on('change', function (event) {
+        readURL(event.target);
+        showFileName(event);
     });
 });
+
 
 /*  ==========================================
     SHOW UPLOADED IMAGE NAME

@@ -7,9 +7,17 @@ const Case = require("../models/case.js");
 const mongoose = require('mongoose');
 const multer = require('multer');
 const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 router.use(express.json());
 const upload = multer({ dest: 'uploads/' });
+const session = require('express-session');
+
+router.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: false
+}));
 
 //setting multer for storing files
 const storage = multer.diskStorage({
@@ -20,6 +28,7 @@ const storage = multer.diskStorage({
       cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
   }
 });
+// const upload = multer({ storage: storage });
 
 async function dbConnection() {
   // await mongoose.connect(process.env.MONGO_URL);
@@ -52,6 +61,7 @@ router.post('/ecourt/regLawyer', upload.single('lImg'), async (req, res) => {
   const gender = req.body.lGender;
   const address = req.body.lAddress;
   const about = req.body.lAbout;
+  const socialWelfare = req.body.lSocialWelfare;
   const password = req.body.lPassword;
   const rePassword = req.body.lRePassword;
   const img = req.file;
@@ -72,6 +82,7 @@ router.post('/ecourt/regLawyer', upload.single('lImg'), async (req, res) => {
     gender: gender,
     address: address,
     about: about,
+    socialWelfare: socialWelfare,
     password: password,
     rePassword: rePassword,
     img: {
@@ -114,6 +125,7 @@ router.post('/ecourt/lLogin', async (req, res) => {
   let userData = await Lawyer.findOne({id: barCode});
   if(userData){
     if(password === userData.password){
+      req.session.email = userData.email;
       res.redirect(`/ecourt/ldashboard/${userData._id}`);
     }else{
       res.send("Password Incorrect");
@@ -238,13 +250,8 @@ router.get("/ecourt/ldashboard/accepted/:caseId/:lawyerId", async (req, res) => 
     console.error(err.message);
   }
 });
-// router.post("/ecourt/ldashboard/accepted/:caseId/:lawyerId", async (req, res) => {//accept , decline(action)
-//   const caseInfo = await Case.findById(caseId);
-//   let action=req.body.action;
-//   const lawyerId = await Lawyer.findById(lawyerId); 
 
-//   console.log(req.body);
-// });
+
 router.post("/ecourt/ldashboard/accepted/:caseId/:lawyerId", async (req, res) => {
   const { caseId, lawyerId } = req.params;
   const action = req.body.action; // Get the action from the request body
@@ -302,15 +309,51 @@ router.post("/ecourt/ldashboard/accepted/:caseId/:lawyerId", async (req, res) =>
     console.error('Error processing lawyer action:', error);
     res.status(500).send('Internal Server Error');
   }
+
+});
+router.get('/editProfile', (req, res) => {
+  const userEmail = req.session.email;
+  res.render('editProfile', { userEmail: userEmail });
+});
+
+// Route to handle profile update
+router.post('/updateProfile', upload.single('UImg'), async (req, res) => {
+  try {
+    const { name, email, contact, city, practiceAreas, experience } = req.body;
+    const img = req.file;
+
+    if (!req.file) {
+      console.log(req.file);
+      return res.status(400).send('No file uploaded');
+    }
+
+    const updatedLawyer = await Lawyer.findOneAndUpdate(
+      { email: email },
+      {
+        name: name,
+        contact: contact,
+        city: city,
+        practiceAreas: practiceAreas,
+        experience: experience,
+        img: {
+          data: fs.readFileSync(img.path),
+          contentType: img.mimetype
+        }
+      },
+      { new: true }
+    );
+
+    if (!updatedLawyer) {
+      return res.status(404).json({ message: 'Lawyer not found' });
+    }
+
+    res.redirect(`/ecourt/ldashboard/${updatedLawyer._id}`);
+  } catch (error) {
+    console.error('Error updating lawyer profile:', error);
+    res.redirect('/error');
+  }
 });
 
 
 
-
-
-
-
 module.exports = router;
-
-
-

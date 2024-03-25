@@ -8,40 +8,25 @@ const methodOverride = require("method-override");
 const mongoose = require("mongoose");
 const cors = require('cors');
 const nm = require('nodemailer');
-// process.setMaxListeners(15);
+const Lawyer = require('./models/profile.js');
 
+// Other middleware and configurations
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+// Middleware setup
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+app.use(cors());
+app.use(methodOverride("_method"));
 
+// Import routes
 const lawyerRoutes = require('./routes/lawyerRoutes.js'); 
 const clientRoutes = require('./routes/clientRoutes.js'); 
 const dashboardRoutes = require('./routes/dashboardRoutes.js'); 
-
-// Middleware to handle data parsing
-app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json());
-app.use(cors());  
-app.use(methodOverride("_method"));
-
-// Connect to MongoDB database
-// async function dbConnection() {
-//     await mongoose.connect(process.env.MONGO_URL);
-// }
-
-// dbConnection()
-//     .then(() => {
-//         console.log('Connected to Database');
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
-
-// Import routes
 app.use(lawyerRoutes);
 app.use(clientRoutes);
 app.use(dashboardRoutes);
-
 
 let savedOTPS = {};
 var transporter = nm.createTransport(
@@ -97,9 +82,7 @@ app.post('/verify', (req, res) => {
     }
 })
 
-
-
-
+  
 app.get("/", (req, res) => {
     res.render("landingPage.ejs");
 });
@@ -109,3 +92,4 @@ app.get("/ecourt", (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
