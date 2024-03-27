@@ -60,6 +60,10 @@ const lawyerSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
+    socialWelfare: {
+        type: String,
+        required: false
+    },
     acceptedCases: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Case'
