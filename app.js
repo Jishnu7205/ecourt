@@ -35,8 +35,8 @@ var transporter = nm.createTransport(
         port: 587,
         secure: false,
         auth: {
-            user: 'aksharasriphani@gmail.com',
-            pass: 'gkdq cmci rcro sefq'
+            user: 'yourmail@gmail.com',
+            pass: 'your app password'
         }
     }
 );
